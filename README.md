@@ -46,7 +46,7 @@ from marshmallow import Schema, fields, validate
 
 class ArticleSchema(Schema):
     id = fields.Int(required=True)
-    title = fields.Str(required=True, validate=validate.Length(min=2, max=256)
+    title = fields.Str(required=True, validate=validate.Length(min=2, max=256))
 ```
 
 But you also want to put some constraints onto outer list itself, for example,
@@ -120,7 +120,7 @@ You can also use `load` for this schema as usual:
 ```python
 data = schema.load([{"id": "10", "title": "wow!"}])
 print(data)
-# {"id": 10, "title": "wow!"}
+# [{"id": 10, "title": "wow!"}]
 ```
 
 Now a client can send data as a list without redundancy.
