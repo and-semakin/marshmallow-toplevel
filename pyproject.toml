@@ -4,6 +4,11 @@ version = "0.1.0"
 description = "Validate top-level lists with all the power of marshmallow"
 authors = ["Andrey Semakin <and-semakin@ya.ru>"]
 license = "MIT"
+packages = [{include = "marshmallow_toplevel"}]
+homepage = "https://github.com/and-semakin/marshmallow_toplevel"
+documentation = "https://github.com/and-semakin/marshmallow_toplevel"
+repository = "https://github.com/and-semakin/marshmallow_toplevel"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.6"
