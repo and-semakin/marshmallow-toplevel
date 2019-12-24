@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "marshmallow_toplevel"
-version = "0.1.0"
+version = "0.1.1"
 description = "Validate top-level lists with all the power of marshmallow"
 authors = ["Andrey Semakin <and-semakin@ya.ru>"]
 license = "MIT"
