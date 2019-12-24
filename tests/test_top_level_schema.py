@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import pytest
 from marshmallow import Schema, fields, validate
 
@@ -13,7 +15,10 @@ class ArticleSchema(Schema):
 
 class ArticlesSchema(TopLevelSchema):
     _toplevel = fields.Nested(
-        ArticleSchema, many=True, required=True, validate=validate.Length(min=1, max=10)
+        ArticleSchema,
+        many=True,
+        required=True,
+        validate=validate.Length(min=1, max=10),
     )
 
 
@@ -58,3 +63,70 @@ class TestTopLevelSchema:
         schema = ArticlesSchema()
         errors = schema.validate([])
         assert errors
+        assert schema._toplevel_field in errors
+        assert errors[schema._toplevel_field][0] == "Length must be between 1 and 10."
+
+    def test_validate_too_long_list(self) -> None:
+        schema = ArticlesSchema()
+        errors = schema.validate(
+            [
+                {
+                    "id": i,
+                    "timestamp": datetime.now().isoformat(),
+                    "author": f"author_{i}",
+                    "text": "qweqwertyasdg",
+                }
+                for i in range(100)
+            ]
+        )
+        assert errors
+        assert schema._toplevel_field in errors
+        assert errors[schema._toplevel_field][0] == "Length must be between 1 and 10."
+
+    def test_validate_broken_item(self) -> None:
+        schema = ArticlesSchema()
+        errors = schema.validate(
+            [
+                {
+                    "id": 1,
+                    "timestamp": datetime.now().isoformat(),
+                    "author": "",
+                    "text": "qweqwertyasdg",
+                }
+            ]
+        )
+        assert errors
+        assert schema._toplevel_field in errors
+        assert errors[schema._toplevel_field][0] == {
+            "author": ["Length must be between 2 and 64."]
+        }
+
+    def test_validate_works(self) -> None:
+        schema = ArticlesSchema()
+        errors = schema.validate(
+            [
+                {
+                    "id": 1,
+                    "timestamp": datetime.now().isoformat(),
+                    "author": "author",
+                    "text": "qweqwertyasdg",
+                }
+            ]
+        )
+        assert not errors
+
+    def test_load(self) -> None:
+        schema = ArticlesSchema()
+        data = schema.load(
+            [
+                {
+                    "id": 1,
+                    "timestamp": datetime.now().isoformat(),
+                    "author": "author",
+                    "text": "qweqwertyasdg",
+                }
+            ]
+        )
+        assert isinstance(data, list)
+        assert len(data) == 1
+        assert isinstance(data[0]["timestamp"], datetime)

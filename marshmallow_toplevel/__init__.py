@@ -39,9 +39,33 @@ class TopLevelSchema(Schema):
         if field != self._toplevel_field:
             raise TypeError(
                 f"The only field in TopLevelSchema should have name: "
-                f""
                 f"{self._toplevel_field}"
             )
+
+    def _do_load(
+        self,
+        data: typing.Union[typing.Mapping, typing.Sequence],
+        *,
+        many: bool = None,
+        partial: typing.Union[bool, types.StrSequenceOrSet] = None,
+        unknown: str = None,
+        postprocess: bool = True,
+    ):
+        data = {self._toplevel_field: data}
+        processed_data = super()._do_load(
+            data, many=many, partial=partial, unknown=unknown, postprocess=postprocess
+        )
+        return processed_data[self._toplevel_field]
+
+    def load(
+        self,
+        data: typing.Union[typing.Mapping, typing.Sequence],
+        *,
+        many: bool = None,
+        partial: typing.Union[bool, types.StrSequenceOrSet] = None,
+        unknown: str = None,
+    ):
+        return super().load(data, many=many, partial=partial, unknown=unknown)
 
     def validate(
         self,
@@ -50,5 +74,4 @@ class TopLevelSchema(Schema):
         many: bool = None,
         partial: typing.Union[bool, types.StrSequenceOrSet] = None,
     ) -> typing.Dict[str, typing.List[str]]:
-        data = {self._toplevel_field: data}
         return super().validate(data, many=many, partial=partial)
