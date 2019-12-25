@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "marshmallow_toplevel"
-version = "0.1.1"
+name = "marshmallow-toplevel"
+version = "0.1.2"
 description = "Validate top-level lists with all the power of marshmallow"
 authors = ["Andrey Semakin <and-semakin@ya.ru>"]
 license = "MIT"
 packages = [{include = "marshmallow_toplevel"}]
-homepage = "https://github.com/and-semakin/marshmallow_toplevel"
-documentation = "https://github.com/and-semakin/marshmallow_toplevel"
-repository = "https://github.com/and-semakin/marshmallow_toplevel"
+homepage = "https://github.com/and-semakin/marshmallow-toplevel"
+documentation = "https://github.com/and-semakin/marshmallow-toplevel"
+repository = "https://github.com/and-semakin/marshmallow-toplevel"
 readme = "README.md"
 
 [tool.poetry.dependencies]
