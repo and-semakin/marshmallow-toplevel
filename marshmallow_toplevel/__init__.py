@@ -30,7 +30,7 @@ class TopLevelSchema(Schema):
         )
         if not self.declared_fields:
             raise TypeError(
-                f"TopLevelSchema should have exactly one field with name: "
+                "TopLevelSchema should have exactly one field with name: "
                 f"{self._toplevel_field}"
             )
         if len(self.declared_fields) > 1:
@@ -38,7 +38,7 @@ class TopLevelSchema(Schema):
         field = list(self.declared_fields.keys())[0]
         if field != self._toplevel_field:
             raise TypeError(
-                f"The only field in TopLevelSchema should have name: "
+                "The only field in TopLevelSchema should have name: "
                 f"{self._toplevel_field}"
             )
 
