@@ -44,11 +44,14 @@ class TopLevelSchema(Schema):
 
     def _do_load(
         self,
-        data: typing.Union[typing.Mapping, typing.Sequence],
+        data: typing.Union[
+            typing.Mapping[str, typing.Any],
+            typing.Iterable[typing.Mapping[str, typing.Any]],
+        ],
         *,
-        many: bool = None,
-        partial: typing.Union[bool, types.StrSequenceOrSet] = None,
-        unknown: str = None,
+        many: typing.Optional[bool] = None,
+        partial: typing.Optional[typing.Union[bool, types.StrSequenceOrSet]] = None,
+        unknown: typing.Optional[str] = None,
         postprocess: bool = True,
     ):
         data = {self._toplevel_field: data}
@@ -59,19 +62,29 @@ class TopLevelSchema(Schema):
 
     def load(
         self,
-        data: typing.Union[typing.Mapping, typing.Sequence],
+        data: typing.Union[
+            typing.Mapping[str, typing.Any],
+            typing.Iterable[typing.Mapping[str, typing.Any]],
+            typing.Sequence[typing.Any],
+            typing.Iterable[typing.Sequence[typing.Any]],
+        ],
         *,
-        many: bool = None,
-        partial: typing.Union[bool, types.StrSequenceOrSet] = None,
-        unknown: str = None,
+        many: typing.Optional[bool] = None,
+        partial: typing.Optional[typing.Union[bool, types.StrSequenceOrSet]] = None,
+        unknown: typing.Optional[str] = None,
     ):
-        return super().load(data, many=many, partial=partial, unknown=unknown)
+        return super().load(
+            data,  # type: ignore
+            many=many,
+            partial=partial,
+            unknown=unknown,
+        )
 
     def validate(
         self,
         data: typing.Union[typing.Mapping, typing.Sequence],
         *,
-        many: bool = None,
-        partial: typing.Union[bool, types.StrSequenceOrSet] = None,
+        many: typing.Optional[bool] = None,
+        partial: typing.Optional[typing.Union[bool, types.StrSequenceOrSet]] = None,
     ) -> typing.Dict[str, typing.List[str]]:
-        return super().validate(data, many=many, partial=partial)
+        return super().validate(data, many=many, partial=partial)  # type: ignore
